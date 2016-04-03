@@ -94,7 +94,7 @@ class EventMaster {
             foreach($this->events[$name] as $method){
                 if (is_array($method) && !method_exists($method[0],$method[1]))
                     throw new Exception("Incorrect method assigned to event: ".$method[0].":".$method[1]);
-                if (!is_array($method) && (!is_callable($method) || !function_exists($method)))
+                if (!is_array($method) && !is_callable($method))
                     throw new Exception("Incorrect function assigned to event: ".$method);
                 call_user_func_array($method, $arg_list);
             }
