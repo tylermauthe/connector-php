@@ -38,6 +38,8 @@ class PHPLaravelDBDataWrapper extends ArrayDBDataWrapper {
 		$obj = null;
 		if(method_exists($source->get_source(), 'getModel')){
 			$obj = $source->get_source()->getModel()->newInstance();
+		} elseif (method_exists($source->get_source(), 'first')) {
+			$obj = $source->get_source()->first()->getModel()->newInstance();
 		} else {
 			$className = get_class($source->get_source());
 			$obj = new $className();
@@ -52,6 +54,8 @@ class PHPLaravelDBDataWrapper extends ArrayDBDataWrapper {
 	public function delete($data, $source) {
 		if(method_exists($source->get_source(), 'getModel')){
 			$source->get_source()->getModel()->find($data->get_id())->delete();
+		} elseif (method_exists($source->get_source(), 'first')) {
+			$obj = $source->get_source()->first()->getModel()->find($data->get_id())->delete();
 		} else {
 			$className = get_class($source->get_source());
 			$className::destroy($data->get_id());
@@ -63,6 +67,8 @@ class PHPLaravelDBDataWrapper extends ArrayDBDataWrapper {
 		$obj = null;
 		if(method_exists($source->get_source(), 'getModel')){
 			$obj = $source->get_source()->getModel()->find($data->get_id());
+		} elseif (method_exists($source->get_source(), 'first')) {
+			$obj = $source->get_source()->first()->getModel()->find($data->get_id());
 		} else {
 			$className = get_class($source->get_source());
 			$obj = $className::find($data->get_id());
